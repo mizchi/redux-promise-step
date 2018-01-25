@@ -1,5 +1,7 @@
 # redux-promise-step
 
+WIP
+
 ```sh
 npm install redux-promise-step -S
 # or
@@ -8,7 +10,7 @@ yarn add redux-promise-step
 
 ## Examples
 
-Setup store with redux-thunk and redux-promise. (I will remove them latter)
+Setup store with redux-thunk and redux-promise. (I will remove these dependencies latter)
 
 ```js
 /* @flow */
@@ -24,6 +26,8 @@ export default createStore(
   applyMiddleware(reduxPromise, reduxThunk, reduxLogger)
 )
 ```
+
+Run
 
 ```js
 /* @flow */
