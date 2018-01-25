@@ -10,20 +10,19 @@ yarn add redux-promise-step
 
 ## Examples
 
-Setup store with redux-thunk and redux-promise. (I will remove these dependencies latter)
+Setup store with middleware.
 
 ```js
 /* @flow */
-import reduxPromise from 'redux-promise'
-import reduxThunk from 'redux-thunk'
-import reduxLogger from 'redux-logger' // for debug
 import { applyMiddleware, createStore } from 'redux'
-import reducer from './reducers/progress'
+import reduxPromise from 'redux-promise'
+import { middleware as reduxPromiseSteps } from 'redux-promise-steps'
+import reducer from './reducers'
 
 export default createStore(
   reducer,
   undefined,
-  applyMiddleware(reduxPromise, reduxThunk, reduxLogger)
+  applyMiddleware(reduxPromiseSteps(reduxPromise))
 )
 ```
 
@@ -31,34 +30,42 @@ Run
 
 ```js
 /* @flow */
-import { start, progress, end } from './reducers/progress'
+import { start, progress, end } as ProgressActions from './reducers/progress'
 import store from './store'
-import { run } from 'redux-promise-step'
+import { run, bindActionsToCommits } from 'redux-promise-step'
 
 // helper
 const wait = ms => new Promise(fullfill => setTimeout(fullfill, ms))
 
 store.dispatch(
-  run(async commit => {
+  run(bindActionsToCommits({...ProgressActions}), async commits => {
     let c = 0
-    await commit(start())
+    await commits.start()
     while (true) {
-      const addVal = Math.floor(Math.random() * 200)
+      const addVal = Math.floor(Math.random() * 20)
       c += addVal
-      if (c > 1000) {
+      if (c > 100) {
         break
       }
       await wait(addVal)
-      await commit(progress(c))
+      await commits.progress(c)
     }
-    await commit(end())
+    await commits.end()
   })
 )
 ```
 
+## What is commits (Why not dispatch)
+
+`dispatch` returns just action object.
+`redux-promise-step`'s `commit` return promise to wait Promised Action: `<T> Promise<{type: string, payload: T}> | { type: string, payload: Promise<T> }`
+
 ## TODO
 
-* Remove dependencies
+* Make it runnable
+* Add types to flow
+* Add types to typescript
+* Remove dependencies (thunk)
 
 ## LICENSE
 
