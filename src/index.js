@@ -8,6 +8,6 @@ const createCommitFunc = dispatch => async action => {
   return promise
 }
 
-export const createStepAction = fn => {
+export const run = fn => {
   return dispatch => fn(createCommitFunc(dispatch))
 }
