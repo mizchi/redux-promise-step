@@ -33,12 +33,13 @@ Run
 /* @flow */
 import { start, progress, end } from './reducers/progress'
 import store from './store'
+import { run } from 'redux-promise-step'
 
 // helper
 const wait = ms => new Promise(fullfill => setTimeout(fullfill, ms))
 
 store.dispatch(
-  createStepAction(async commit => {
+  run(async commit => {
     let c = 0
     await commit(start())
     while (true) {
