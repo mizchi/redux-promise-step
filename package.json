@@ -1,0 +1,35 @@
+{
+  "name": "redux-promise-step",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "run-s test build",
+    "test": "yarn build && run-p test:*",
+    "test:flow": "flow",
+    "test:all": "nyc babel-node test/index",
+    "build": "babel src -d lib"
+  },
+  "devDependencies": {
+    "@types/node": "^9.3.0",
+    "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-flow": "^6.23.0",
+    "flow-bin": "^0.64.0",
+    "npm-run-all": "^4.1.2",
+    "nyc": "^11.4.1",
+    "redux": "^3.7.2",
+    "redux-promise": "^0.5.3",
+    "ts-node": "^4.1.0",
+    "typescript": "^2.6.2"
+  },
+  "files": [
+    "lib",
+    "index.js",
+    "index.js.flow",
+    "index.d.ts"
+  ],
+  "typings": "index.d.ts",
+  "author": "mizchi <miz404@gmail.com>"
+}
